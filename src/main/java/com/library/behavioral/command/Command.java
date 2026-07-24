@@ -1,5 +1,7 @@
 package com.library.behavioral.command;
 
-public class Command {
-
+public interface Command {
+    void execute();
+    void undo();
+    String getDescription();
 }

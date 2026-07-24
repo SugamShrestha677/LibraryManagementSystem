@@ -1,5 +1,5 @@
 package com.library.behavioral.strategy;
 
-public class FineStrategy {
-
+public interface FineStrategy {
+    double calculateFine(long overdueDays);
 }

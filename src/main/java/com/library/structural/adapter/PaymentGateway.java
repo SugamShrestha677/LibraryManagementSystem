@@ -1,5 +1,5 @@
 package com.library.structural.adapter;
 
-public class PaymentGateway {
-
+public interface PaymentGateway {
+    PaymentResult processPayment(double amount, String userId);
 }

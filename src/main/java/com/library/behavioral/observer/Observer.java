@@ -1,5 +1,5 @@
 package com.library.behavioral.observer;
 
-public class Observer {
-
+public interface Observer {
+    void update(String eventType, String message);
 }
