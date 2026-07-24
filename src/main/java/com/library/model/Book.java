@@ -38,6 +38,11 @@ public abstract class Book {
 
     public double getBaseCost() { return baseCost; }
     public void setBaseCost(double baseCost) { this.baseCost = baseCost; }
+    
+    // For decorator pattern
+    public double getCost() { 
+        return baseCost; 
+    }
 
     public boolean isAvailable() { return copiesAvailable > 0; }
 
@@ -58,6 +63,4 @@ public abstract class Book {
         return String.format("Book[ID=%s, Title=%s, Author=%s, Type=%s, Copies=%d]",
                 bookId, title, author, getBookType(), copiesAvailable);
     }
-
-	public abstract String getDescription();
 }

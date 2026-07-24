@@ -10,17 +10,17 @@ public class PriorityDecorator extends BookDecorator {
     }
     
     @Override
-    public String getDescription() {
-        return decoratedBook.getTitle() + " + Priority";
+    public double getCost() {
+        return decoratedBook.getCost() + PRIORITY_COST;
     }
     
     @Override
-    public double getCost() {
-        return decoratedBook.getBaseCost() + PRIORITY_COST;
+    public String getBookType() {
+        return decoratedBook.getBookType() + " + Priority";
     }
     
     @Override
     public String toString() {
-        return "Book[" + getDescription() + ", Cost=Rs." + getCost() + "]";
+        return "Book[" + decoratedBook.getTitle() + " + Priority, Cost=Rs." + getCost() + "]";
     }
 }

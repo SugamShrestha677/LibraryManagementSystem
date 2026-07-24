@@ -10,17 +10,17 @@ public class InsuranceDecorator extends BookDecorator {
     }
     
     @Override
-    public String getDescription() {
-        return decoratedBook.getTitle() + " + Insurance";
+    public double getCost() {
+        return decoratedBook.getCost() + INSURANCE_COST;
     }
     
     @Override
-    public double getCost() {
-        return decoratedBook.getBaseCost() + INSURANCE_COST;
+    public String getBookType() {
+        return decoratedBook.getBookType() + " + Insurance";
     }
     
     @Override
     public String toString() {
-        return "Book[" + getDescription() + ", Cost=Rs." + getCost() + "]";
+        return "Book[" + decoratedBook.getTitle() + " + Insurance, Cost=Rs." + getCost() + "]";
     }
 }

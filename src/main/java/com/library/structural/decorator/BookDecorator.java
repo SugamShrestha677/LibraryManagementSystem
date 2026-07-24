@@ -6,6 +6,7 @@ public abstract class BookDecorator extends Book {
     protected Book decoratedBook;
     
     public BookDecorator(Book book) {
+        // Pass book details to super constructor
         super(book.getBookId(), book.getTitle(), book.getAuthor(), 
               book.getIsbn(), book.getCopiesAvailable());
         this.decoratedBook = book;
@@ -23,8 +24,11 @@ public abstract class BookDecorator extends Book {
     }
     
     @Override
-    public abstract String getDescription();
+    public double getCost() {
+        return decoratedBook.getCost();
+    }
     
+    // Each decorator should override toString to show its description
     @Override
-    public abstract double getCost();
+    public abstract String toString();
 }
