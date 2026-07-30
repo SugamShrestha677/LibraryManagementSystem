@@ -52,6 +52,7 @@ public abstract class Book {
         } else {
             throw new IllegalStateException("No copies available for book: " + title);
         }
+
     }
 
     public void returnBook() {

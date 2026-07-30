@@ -41,6 +41,12 @@ public class User {
 
     public void addFine(double amount) { this.outstandingFine += amount; }
     public void payFine(double amount) { this.outstandingFine = Math.max(0, this.outstandingFine - amount); }
+    
+    public void payAllFine() {
+        if (outstandingFine > 0) {
+            payFine(outstandingFine);
+        }
+    }
 
     @Override
     public String toString() {

@@ -24,6 +24,14 @@
             <version>5.13.4</version>
             <scope>test</scope>
         </dependency>
+        
+        <!--Database-->
+        
+        <dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>42.6.0</version>
+		</dependency>
 
         <!-- Mockito for Mocking (Optional but helpful) -->
         <dependency>
