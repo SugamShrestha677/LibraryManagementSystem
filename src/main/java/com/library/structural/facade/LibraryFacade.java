@@ -34,9 +34,17 @@ public class LibraryFacade {
         this.transactionRepo = new TransactionRepository();
         this.fineRepo = new FineTransactionRepository();
         this.notificationService = new NotificationService();
-        this.transactionCounter = 1;
-    }
 
+        // Initialize transaction counter from database
+        try {
+            int max = transactionRepo.getMaxTransactionNumber();
+            this.transactionCounter = max + 1;
+            System.out.println("🔢 Transaction counter initialized from DB: " + this.transactionCounter);
+        } catch (SQLException e) {
+            this.transactionCounter = 1;
+            System.err.println("⚠️ Could not read max transaction ID, starting from 1.");
+        }
+    }
     // =============================================
     // ===== BOOK MANAGEMENT =====
     // =============================================

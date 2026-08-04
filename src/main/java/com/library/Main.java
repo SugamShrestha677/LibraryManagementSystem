@@ -18,7 +18,6 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static LibraryFacade libraryFacade;
     private static User currentUser;
-    private static SecurityProxy securityProxy;
     private static CommandInvoker commandInvoker = new CommandInvoker();
 
     public static void main(String[] args) {

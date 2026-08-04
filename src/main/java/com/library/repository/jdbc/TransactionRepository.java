@@ -125,4 +125,18 @@ public class TransactionRepository implements Repository<Transaction, String> {
         t.setInsurance(rs.getBoolean("insurance"));
         return t;
     }
+    
+ // In TransactionRepository.java - add this method
+
+    public int getMaxTransactionNumber() throws SQLException {
+        String sql = "SELECT COALESCE(MAX(CAST(SUBSTRING(transaction_id, 4) AS INTEGER)), 0) FROM transactions";
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
 }
