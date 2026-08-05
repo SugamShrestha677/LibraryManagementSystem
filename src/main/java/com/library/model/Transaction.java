@@ -1,6 +1,6 @@
 package com.library.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
@@ -8,12 +8,15 @@ public class Transaction {
     private String memberId;
     private String bookId;
     private String type; // BORROW, RETURN, RESERVE
-    private String dueDate;
-    private String actualReturnDate;
+    private LocalDateTime dueDate;           // ✅ LocalDateTime
+    private LocalDateTime actualReturnDate;  // ✅ LocalDateTime
     private double fineAmount;
     private boolean isActive;
     private boolean priority;
     private boolean insurance;
+
+    // Default loan period: 1 hour (for testing)
+    private static final int DEFAULT_LOAN_HOURS = 1;
 
     public Transaction(String transactionId, String memberId, String bookId, String type) {
         this.transactionId = transactionId;
@@ -24,10 +27,7 @@ public class Transaction {
         this.isActive = true;
         this.priority = false;
         this.insurance = false;
-        
-        // Set due date to 14 days from now
-        this.dueDate = LocalDate.now().plusDays(14)
-                .format(DateTimeFormatter.ISO_DATE);
+        this.dueDate = LocalDateTime.now().plusHours(DEFAULT_LOAN_HOURS);
     }
 
     // Getters and Setters
@@ -43,11 +43,20 @@ public class Transaction {
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
 
-    public String getDueDate() { return dueDate; }
-    public void setDueDate(String dueDate) { this.dueDate = dueDate; }
+    public LocalDateTime getDueDate() { return dueDate; }
+    public void setDueDate(LocalDateTime dueDate) { this.dueDate = dueDate; }
+    
+    // Convenience method for string due date (if needed)
+    public void setDueDate(String dueDateStr) {
+        this.dueDate = LocalDateTime.parse(dueDateStr, DateTimeFormatter.ISO_DATE_TIME);
+    }
 
-    public String getActualReturnDate() { return actualReturnDate; }
-    public void setActualReturnDate(String actualReturnDate) { this.actualReturnDate = actualReturnDate; }
+    public LocalDateTime getActualReturnDate() { return actualReturnDate; }
+    public void setActualReturnDate(LocalDateTime actualReturnDate) { this.actualReturnDate = actualReturnDate; }
+    
+    public void setActualReturnDate(String returnDateStr) {
+        this.actualReturnDate = LocalDateTime.parse(returnDateStr, DateTimeFormatter.ISO_DATE_TIME);
+    }
 
     public double getFineAmount() { return fineAmount; }
     public void setFineAmount(double fineAmount) { this.fineAmount = fineAmount; }
@@ -61,13 +70,19 @@ public class Transaction {
     public boolean isInsurance() { return insurance; }
     public void setInsurance(boolean insurance) { this.insurance = insurance; }
 
-    public long getOverdueDays() {
-        LocalDate due = LocalDate.parse(dueDate);
-        LocalDate today = LocalDate.now();
-        if (today.isAfter(due)) {
-            return java.time.temporal.ChronoUnit.DAYS.between(due, today);
+    // Calculate overdue hours
+    public long getOverdueHours() {
+        if (dueDate == null) return 0;
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isAfter(dueDate)) {
+            return java.time.Duration.between(dueDate, now).toHours();
         }
         return 0;
+    }
+
+    // Legacy method (kept for compatibility with Strategy pattern)
+    public long getOverdueDays() {
+        return getOverdueHours() / 24;
     }
 
     @Override

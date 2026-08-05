@@ -2,6 +2,8 @@ package com.library;
 
 import com.library.model.User;
 import com.library.behavioral.strategy.FacultyFineStrategy;
+import com.library.behavioral.strategy.FineStrategy;
+import com.library.behavioral.strategy.StudentFineStrategy;
 import com.library.behavioral.strategy.FineCalculator;
 import com.library.creational.singleton.LibraryConfig;
 

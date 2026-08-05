@@ -22,9 +22,13 @@ public class TransactionRepository implements Repository<Transaction, String> {
             stmt.setString(2, transaction.getMemberId());
             stmt.setString(3, transaction.getBookId());
             stmt.setString(4, transaction.getType());
-            stmt.setDate(5, Date.valueOf(transaction.getDueDate()));
-            stmt.setDate(6, transaction.getActualReturnDate() != null ?
-                         Date.valueOf(transaction.getActualReturnDate()) : null);
+            stmt.setTimestamp(5, Timestamp.valueOf(transaction.getDueDate()));
+            
+            if (transaction.getActualReturnDate() != null) {
+                stmt.setTimestamp(6, Timestamp.valueOf(transaction.getActualReturnDate()));
+            } else {
+                stmt.setNull(6, Types.TIMESTAMP);
+            }
             stmt.setDouble(7, transaction.getFineAmount());
             stmt.setBoolean(8, transaction.isActive());
             stmt.setBoolean(9, transaction.isPriority());
@@ -71,9 +75,13 @@ public class TransactionRepository implements Repository<Transaction, String> {
             stmt.setString(1, transaction.getMemberId());
             stmt.setString(2, transaction.getBookId());
             stmt.setString(3, transaction.getType());
-            stmt.setDate(4, Date.valueOf(transaction.getDueDate()));
-            stmt.setDate(5, transaction.getActualReturnDate() != null ?
-                         Date.valueOf(transaction.getActualReturnDate()) : null);
+            stmt.setTimestamp(5, Timestamp.valueOf(transaction.getDueDate()));
+            
+            if (transaction.getActualReturnDate() != null) {
+                stmt.setTimestamp(6, Timestamp.valueOf(transaction.getActualReturnDate()));
+            } else {
+                stmt.setNull(6, Types.TIMESTAMP);
+            }
             stmt.setDouble(6, transaction.getFineAmount());
             stmt.setBoolean(7, transaction.isActive());
             stmt.setBoolean(8, transaction.isPriority());
@@ -114,11 +122,18 @@ public class TransactionRepository implements Repository<Transaction, String> {
             rs.getString("book_id"),
             rs.getString("type")
         );
-        t.setDueDate(rs.getDate("due_date").toString());
-        Date returnDate = rs.getDate("actual_return_date");
-        if (returnDate != null) {
-            t.setActualReturnDate(returnDate.toString());
+        // ✅ Get due date as Timestamp and convert to LocalDateTime
+        Timestamp dueTimestamp = rs.getTimestamp("due_date");
+        if (dueTimestamp != null) {
+            t.setDueDate(dueTimestamp.toLocalDateTime());
         }
+        
+        // ✅ Get actual return date as Timestamp and convert to LocalDateTime
+        Timestamp returnTimestamp = rs.getTimestamp("actual_return_date");
+        if (returnTimestamp != null) {
+            t.setActualReturnDate(returnTimestamp.toLocalDateTime());
+        }
+        
         t.setFineAmount(rs.getDouble("fine_amount"));
         t.setActive(rs.getBoolean("is_active"));
         t.setPriority(rs.getBoolean("priority"));

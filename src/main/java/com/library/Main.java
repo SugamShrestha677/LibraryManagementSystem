@@ -13,12 +13,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-
+import com.library.structural.proxy.SecurityProxy;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static LibraryFacade libraryFacade;
     private static User currentUser;
     private static CommandInvoker commandInvoker = new CommandInvoker();
+    private static SecurityProxy securityProxy;
 
     public static void main(String[] args) {
         // Initialize database schema
